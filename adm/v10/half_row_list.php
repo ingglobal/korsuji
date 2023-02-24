@@ -105,6 +105,7 @@ label[for="mtr_static_date"] i{position:absolute;top:-10px;right:0px;z-index:2;c
 .slt_label{position:relative;}
 .slt_label span{position:absolute;top:-23px;left:0px;z-index:2;}
 .slt_label .data_blank{position:absolute;top:3px;right:-18px;z-index:2;font-size:1.1em;cursor:pointer;}
+#sch_itm_btn{display:none; font-size:0.9em;padding:0 10px;height:30px;line-height:20px;background:#737132;color:#fff;}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -120,6 +121,7 @@ echo $g5['container_sub_title'];
     <option value="mtr_name"<?php echo get_selected($_GET['sfl'], "mtr_name"); ?>>품명</option>
     <option value="bom.bom_part_no"<?php echo get_selected($_GET['sfl'], "bom_part_no"); ?>>품번</option>
 </select>
+<button type="button" id="sch_itm_btn" url="./bom_half_select.php?file_name=<?php echo $g5['file_name']?>">제품선택</button>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
 <!--select name="shift" id="shift">
@@ -155,6 +157,31 @@ $sfl = ($sfl == '') ? 'mtr_name' : $sfl;
 <input type="submit" class="btn_submit" value="검색">
 
 </form>
+<script>
+sfl_item_chk();
+$('#sfl').on('change',function(){
+    sfl_item_chk();
+});
+
+function sfl_item_chk(){
+    if($('#sfl').val() == 'mtr_name'){
+        $('#sch_itm_btn').show();
+        $('#stx').attr('readonly',true);
+    }
+    else{
+        $('#sch_itm_btn').hide();
+        $('#stx').attr('readonly',false).val('');
+    }
+}
+
+//#sch_itm_btn 품명검색 버튼
+$("#sch_itm_btn").click(function(e) {
+    e.preventDefault();
+    var href = $(this).attr('url');
+    winBomSelect = window.open(href, "winBomSelect", "left=300,top=150,width=650,height=600,scrollbars=1");
+    winBomSelect.focus();
+});
+</script>
 
 <div class="local_desc01 local_desc" style="display:none;">
     <p>새로운 고객을 등록</p>

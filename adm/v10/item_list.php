@@ -102,6 +102,7 @@ label[for="itm_static_date"]{position:relative;}
 label[for="itm_static_date"] i{position:absolute;top:-10px;right:0px;z-index:2;cursor:pointer;}
 .slt_label{position:relative;display:inline-block;}
 .slt_label i{position:absolute;top:-7px;right:0px;z-index:2;}
+#sch_itm_btn{display:none; font-size:0.9em;padding:0 10px;height:30px;line-height:20px;background:#737132;color:#fff;}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -117,6 +118,7 @@ echo $g5['container_sub_title'];
     <option value="itm_name"<?php echo get_selected($_GET['sfl'], "itm_name"); ?>>품명</option>
     <option value="bom.bom_part_no"<?php echo get_selected($_GET['sfl'], "bom_part_no"); ?>>품번</option>
 </select>
+<button type="button" id="sch_itm_btn" url="./bom_select5.php?file_name=<?php echo $g5['file_name']?>">제품선택</button>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
 <?php
@@ -137,6 +139,31 @@ $('#itm2_status').val('<?=$itm2_status?>');
 <input type="submit" class="btn_submit" value="검색">
 
 </form>
+<script>
+sfl_item_chk();
+$('#sfl').on('change',function(){
+    sfl_item_chk();
+});
+
+function sfl_item_chk(){
+    if($('#sfl').val() == 'itm_name'){
+        $('#sch_itm_btn').show();
+        $('#stx').attr('readonly',true);
+    }
+    else{
+        $('#sch_itm_btn').hide();
+        $('#stx').attr('readonly',false).val('');
+    }
+}
+
+//#sch_itm_btn 품명검색 버튼
+$("#sch_itm_btn").click(function(e) {
+    e.preventDefault();
+    var href = $(this).attr('url');
+    winBomSelect = window.open(href, "winBomSelect", "left=300,top=150,width=650,height=600,scrollbars=1");
+    winBomSelect.focus();
+});
+</script>
 
 <div class="local_desc01 local_desc" style="display:no ne;">
     <p>생산일에 따른 완재품별 재고조회 페이지입니다.</p>
